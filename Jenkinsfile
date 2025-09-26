@@ -15,7 +15,7 @@ pipeline {
         stage('Deleting old images') {
             steps {
                 sh '''
-                    docker rmi -f $(docker images -q demo) || demo
+                    docker rmi -f $(docker images -p demo) || demo
                 '''
             } 
         }
