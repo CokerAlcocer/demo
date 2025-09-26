@@ -15,7 +15,12 @@ pipeline {
         stage('Deleting old images') {
             steps {
                 sh '''
-                    docker rmi -f $(docker images -p demo) || demo
+                    IMAGES=$(docker images --filter "label=com.docker.compose.project=demo" -q)
+                    if [ -n "$IMAGES" ]; then
+                        docker rmi -f $IMAGES
+                    else
+                        echo "No hay imágenes para borrar"
+                    fi
                 '''
             } 
         }
